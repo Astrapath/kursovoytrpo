@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Качество знаний {% if group %}группы {{ group.name }}{% endif %}{% if sem %} ({{ sem }} семестр){% endif %}</h2>
+{% if total == 0 %}
+  <p>Оценок за период нет</p>
+{% else %}
+<p>Всего оценок: <b>{{ total }}</b></p>
+<p>Оценок «4» и «5»: <b>{{ good }}</b></p>
+<p>Качество знаний: <b>{{ percent }}%</b></p>
+{% endif %}
+<p style="margin-top:12px"><a class="link" href="/admin/reports">← Назад</a></p>
+{% endblock %}

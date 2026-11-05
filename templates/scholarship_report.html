@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Стипендиальная ведомость {% if group %}группы {{ group.name }}{% endif %}{% if sem %} ({{ sem }} семестр){% endif %}</h2>
+{% if rows|length == 0 %}
+  <p>Студентов, подходящих под условия, нет</p>
+{% else %}
+<table>
+  <tr><th>Студент</th><th>Группа</th><th>Средний балл</th></tr>
+  {% for r in rows %}
+  <tr><td>{{ r.fio }}</td><td>{{ r.group_name }}</td><td>{{ r.avg_grade }}</td></tr>
+  {% endfor %}
+</table>
+<p class="small" style="margin-top:8px">Подходящих студентов: {{ rows|length }}.</p>
+{% endif %}
+<p style="margin-top:12px"><a class="link" href="/admin/reports">← Назад</a></p>
+{% endblock %}

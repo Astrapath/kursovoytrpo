@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Пользователи</h2>
+<form method="post">
+  <div class="form-row">
+    <label>ФИО:</label><input name="fio" style="width:200px" required>
+    <label style="margin-left:10px">Логин:</label><input name="login" style="width:150px" required>
+  </div>
+  <div class="form-row">
+    <label>Пароль:</label><input type="password" name="password" style="width:160px" required>
+    <label style="margin-left:10px">Роль:</label>
+    <select name="role">
+      {% for r in roles %}<option>{{ r }}</option>{% endfor %}
+    </select>
+    <button style="margin-left:10px">Создать</button>
+  </div>
+</form>
+
+<table>
+  <tr><th>ФИО</th><th>Логин</th><th>Роль</th><th>Активен</th><th></th></tr>
+  {% for u in users %}
+  {% set action_text = 'Разблокировать' if not u.active else 'Заблокировать' %}
+  {% set confirm_text = 'Разблокировать пользователя?' if not u.active else 'Заблокировать пользователя?' %}
+
+  <tr>
+    <td>{{ u.fio }}</td>
+    <td>{{ u.login }}</td>
+    <td>{{ u.role }}</td>
+    <td>{{ 'да' if u.active else 'нет' }}</td>
+    <td>
+      <a class="link" href="/admin/users/toggle/{{ u.id }}"
+         onclick="return confirm('{{ confirm_text }}');">
+        {{ action_text }}
+      </a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

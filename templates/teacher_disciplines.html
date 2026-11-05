@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Мои дисциплины</h2>
+{% if disciplines|length == 0 %}
+  <p>Дисциплины не назначены</p>
+{% else %}
+<table>
+  <tr><th>Дисциплина</th><th>Кол-во оценок</th><th></th></tr>
+  {% for d in disciplines %}
+  <tr>
+    <td>{{ d.name }}</td>
+    <td>{{ d.grades_count }}</td>
+    <td><a class="link" href="/teacher/discipline/{{ d.id }}">Открыть</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+{% endblock %}

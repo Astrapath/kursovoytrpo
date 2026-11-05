@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ d.name }}</h2>
+
+<h3>Выставить оценку</h3>
+<table>
+  <tr><th>Студент</th><th>Группа</th><th>Ср. балл</th>
+      <th>Оценка</th><th>Тип</th><th>Семестр</th><th></th></tr>
+  {% for s in students %}
+  <tr>
+    <form method="post" action="/teacher/grade/add">
+      <input type="hidden" name="discipline_id" value="{{ d.id }}">
+      <input type="hidden" name="student_id" value="{{ s.id }}">
+      <td>{{ s.fio }}</td>
+      <td>{{ s.group_name }}</td>
+      <td>{{ avg_map.get(s.id, '—') }}</td>
+      <td><input name="grade" style="width:50px"></td>
+      <td>
+        <select name="grade_type">
+          {% for t in types %}<option>{{ t }}</option>{% endfor %}
+        </select>
+      </td>
+      <td><input name="semester" value="1" style="width:40px"></td>
+      <td><button>Сохранить</button></td>
+    </form>
+  </tr>
+  {% endfor %}
+</table>
+
+<h3>Выставленные оценки</h3>
+{% if grades|length == 0 %}
+  <p>Оценок пока нет</p>
+{% else %}
+<table>
+  <tr><th>Дата</th><th>Студент</th><th>Оценка</th><th>Тип</th><th>Семестр</th><th></th></tr>
+  {% for g in grades %}
+  <tr>
+    <td>{{ g.date }}</td>
+    <td>{{ g.student_fio }}</td>
+    <td>{{ g.grade }}</td>
+    <td>{{ g.grade_type }}</td>
+    <td>{{ g.semester }}</td>
+    <td>
+      <form method="post" action="/teacher/grade/edit/{{ g.id }}" style="display:inline">
+        <input name="grade" value="{{ g.grade }}" style="width:40px">
+        <button>Изменить</button>
+      </form>
+      <a class="link" href="/teacher/grade/delete/{{ g.id }}"
+         onclick="return confirm('Удалить оценку?')">Удалить</a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Вход</h2>
+<form method="post">
+  <div class="form-row"><label>Логин:</label><input name="login" style="width:240px" required></div>
+  <div class="form-row"><label>Пароль:</label><input type="password" name="password" style="width:240px" required></div>
+  <button>Войти</button>
+</form>
+<p class="small" style="margin-top:16px">Учётные записи создаются администратором учебной части.</p>
+{% endblock %}

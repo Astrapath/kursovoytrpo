@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Учёт успеваемости СПО</title>
+<style>
+  /* Базовые настройки */
+  * { box-sizing: border-box; }
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    background-color: #f9f9f9; /* Очень светлый серый фон для всего сайта */
+    color: #333;
+  }
+
+  /* Навигационная панель */
+  nav {
+    background-color: #ffcc00; /* Желтый цвет */
+    padding: 12px 20px;
+    border-bottom: 2px solid #e6b800;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  nav a {
+    color: #333;
+    margin-right: 20px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  nav a:hover { text-decoration: underline; }
+  nav span {
+    float: right;
+    font-size: 13px;
+    color: #333;
+  }
+
+  /* Основной контейнер */
+  .box {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff; /* Белый фон для контента */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+
+  /* Заголовки */
+  h2 {
+    margin-top: 0;
+    font-size: 20px;
+    color: #222;
+    border-bottom: 2px solid #ffcc00; /* Желтое подчеркивание */
+    padding-bottom: 5px;
+    display: inline-block;
+  }
+  h3 {
+    font-size: 16px;
+    margin-top: 24px;
+    color: #444;
+  }
+
+  /* Формы и поля ввода */
+  label {
+    display: inline-block;
+    min-width: 90px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #444;
+  }
+  input, select, textarea {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 14px;
+    border-radius: 3px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: #ffcc00;
+    box-shadow: 0 0 3px rgba(255, 204, 0, 0.5);
+  }
+
+  /* Кнопки */
+  button, .btn {
+    background-color: #ffcc00; /* Желтый */
+    color: #222;
+    border: 1px solid #e6b800;
+    padding: 6px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 3px;
+    font-weight: bold;
+    transition: background 0.2s;
+  }
+  button:hover, .btn:hover {
+    background-color: #e6b800; /* Темнее при наведении */
+  }
+
+  /* Таблицы */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 15px;
+    font-size: 14px;
+    background: #fff;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px 10px;
+    text-align: left;
+  }
+  th {
+    background-color: #f0f0f0; /* Серый фон для шапки */
+    font-weight: bold;
+    color: #333;
+  }
+  tr:nth-child(even) { background-color: #fafafa; } /* Зебра для строк */
+  tr:hover { background-color: #fff9e6; } /* Легкий желтый при наведении на строку */
+
+  /* Сообщения (Flash) */
+  .msg {
+    background-color: #fff9e6; /* Светло-желтый фон */
+    border: 1px solid #ffcc00;
+    border-left: 4px solid #ffcc00;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    border-radius: 3px;
+    color: #333;
+  }
+
+  /* Утилиты */
+  .form-row { margin-bottom: 12px; }
+  .link {
+    color: #b38f00; /* Темно-желтый/золотой */
+    text-decoration: none;
+    border-bottom: 1px dashed #b38f00;
+    cursor: pointer;
+  }
+  .link:hover {
+    color: #ffcc00;
+    border-bottom: 1px solid #ffcc00;
+  }
+  .small { font-size: 12px; color: #666; }
+</style>
+</head>
+<body>
+<nav>
+  {% if session.user_id %}
+    {% if session.role == 'преподаватель' %}
+      <a href="/teacher/disciplines">Мои дисциплины</a>
+    {% endif %}
+    {% if session.role == 'администратор' %}
+      <a href="/admin/groups">Группы</a>
+      <a href="/admin/students">Студенты</a>
+      <a href="/admin/disciplines">Дисциплины</a>
+      <a href="/admin/users">Пользователи</a>
+      <a href="/admin/reports">Отчёты</a>
+    {% endif %}
+    <span>{{ session.fio }} ({{ session.role }}) | <a href="/logout" style="margin-left:10px; color:#a00000;">Выйти</a></span>
+  {% else %}
+    <a href="/login">Вход</a>
+  {% endif %}
+</nav>
+<div class="box">
+  {% for m in get_flashed_messages() %}
+    <div class="msg">{{ m }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Дисциплины</h2>
+<form method="post" class="form-row">
+  <label>Название:</label><input name="name" style="width:200px">
+  <label style="margin-left:10px">Преподаватель:</label>
+  <select name="teacher_id">
+    {% for t in teachers %}<option value="{{ t.id }}">{{ t.fio }}</option>{% endfor %}
+  </select>
+  <button style="margin-left:10px">Добавить</button>
+</form>
+
+<table>
+  <tr><th>Название</th><th>Преподаватель</th><th></th></tr>
+  {% for d in disciplines %}
+  <tr>
+    <td>{{ d.name }}</td>
+    <td>{{ d.teacher_fio }}</td>
+    <td><a class="link" href="/admin/disciplines/delete/{{ d.id }}"
+           onclick="return confirm('Удалить дисциплину?')">Удалить</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}ml>

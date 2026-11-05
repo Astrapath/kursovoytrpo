@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Студенты</h2>
+<form method="post" class="form-row">
+  <label>ФИО:</label><input name="fio" style="width:220px">
+  <label style="margin-left:10px">Группа:</label>
+  <select name="group_id">
+    {% for g in groups %}<option value="{{ g.id }}">{{ g.name }}</option>{% endfor %}
+  </select>
+  <button style="margin-left:10px">Добавить</button>
+</form>
+
+<table>
+  <tr><th>ФИО</th><th>Группа</th><th></th></tr>
+  {% for s in students %}
+  <tr>
+    <td>{{ s.fio }}</td>
+    <td>{{ s.group_name }}</td>
+    <td>
+      <a class="link" href="/admin/student/{{ s.id }}">Подробнее</a> |
+      <a class="link" href="/admin/students/delete/{{ s.id }}"
+         onclick="return confirm('Удалить студента?')">Удалить</a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

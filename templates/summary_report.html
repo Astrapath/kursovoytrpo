@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Сводная ведомость {% if group %}группы {{ group.name }}{% endif %}{% if sem %} ({{ sem }} семестр){% endif %}</h2>
+{% if rows|length == 0 %}
+  <p>Данных нет</p>
+{% else %}
+<table>
+  <tr>
+    <th>Студент</th>
+    {% for d in disciplines %}<th>{{ d.name }}</th>{% endfor %}
+    <th>Ср. балл</th>
+  </tr>
+  {% for r in rows %}
+  <tr>
+    <td>{{ r.fio }}</td>
+    {% for c in r.cells %}<td>{{ c }}</td>{% endfor %}
+    <td>{{ r.avg }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+<p style="margin-top:12px"><a class="link" href="/admin/reports">← Назад</a></p>
+{% endblock %}

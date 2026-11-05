@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Группы</h2>
+<form method="post" class="form-row">
+  <label>Название:</label><input name="name" style="width:140px">
+  <label style="margin-left:10px">Специальность:</label><input name="specialty" style="width:260px">
+  <button style="margin-left:10px">Добавить</button>
+</form>
+
+<table>
+  <tr><th>Название</th><th>Специальность</th><th></th></tr>
+  {% for g in groups %}
+  <tr>
+    <td>{{ g.name }}</td>
+    <td>{{ g.specialty }}</td>
+    <td><a class="link" href="/admin/groups/delete/{{ g.id }}"
+           onclick="return confirm('Удалить группу?')">Удалить</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

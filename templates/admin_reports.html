@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Отчёты</h2>
+<form method="get" action="/admin/report/summary" class="form-row">
+  <label>Группа:</label>
+  <select name="group_id" required>
+    {% for g in groups %}<option value="{{ g.id }}">{{ g.name }}</option>{% endfor %}
+  </select>
+  <label style="margin-left:10px">Семестр:</label>
+  <input name="semester" value="1" style="width:50px">
+</form>
+
+<div style="margin-top:12px">
+  <form method="get" action="/admin/report/summary" style="display:inline">
+    <input type="hidden" name="group_id" id="g1">
+    <button>Сводная ведомость</button>
+  </form>
+  <form method="get" action="/admin/report/scholarship" style="display:inline">
+    <input type="hidden" name="group_id" id="g2">
+    <button>Стипендиальная ведомость</button>
+  </form>
+  <form method="get" action="/admin/report/quality" style="display:inline">
+    <input type="hidden" name="group_id" id="g3">
+    <button>Качество знаний</button>
+  </form>
+</div>
+{% endblock %}
